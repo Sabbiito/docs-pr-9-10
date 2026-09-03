@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> pages/SessionsPage.jsx</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#AppRouter">AppRouter</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#CONSENT_KEY">CONSENT_KEY</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#GameBoard">GameBoard</a></li><li><a href="global.html#GameControls">GameControls</a></li><li><a href="global.html#GameOverModal">GameOverModal</a></li><li><a href="global.html#GamePage">GamePage</a></li><li><a href="global.html#HomePage">HomePage</a></li><li><a href="global.html#Navigation">Navigation</a></li><li><a href="global.html#NotFoundPage">NotFoundPage</a></li><li><a href="global.html#PlayerInfo">PlayerInfo</a></li><li><a href="global.html#Portal">Portal</a></li><li><a href="global.html#PrivacyPage">PrivacyPage</a></li><li><a href="global.html#ResultStats">ResultStats</a></li><li><a href="global.html#ResultsPage">ResultsPage</a></li><li><a href="global.html#SessionsPage">SessionsPage</a></li><li><a href="global.html#SettingsForm">SettingsForm</a></li><li><a href="global.html#SettingsModal">SettingsModal</a></li><li><a href="global.html#StartPage">StartPage</a></li><li><a href="global.html#Title">Title</a></li><li><a href="global.html#createConsentAwareStorage">createConsentAwareStorage</a></li><li><a href="global.html#createSession">createSession</a></li><li><a href="global.html#emptyBoard">emptyBoard</a></li><li><a href="global.html#getAllSessions">getAllSessions</a></li><li><a href="global.html#getBoardDimensions">getBoardDimensions</a></li><li><a href="global.html#readConsentCategories">readConsentCategories</a></li><li><a href="global.html#resetConsent">resetConsent</a></li><li><a href="global.html#sessions">sessions</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#updateSessionStats">updateSessionStats</a></li><li><a href="global.html#useConsentStore">useConsentStore</a></li><li><a href="global.html#useGameBoard">useGameBoard</a></li><li><a href="global.html#useGameLogic">useGameLogic</a></li><li><a href="global.html#useGameStats">useGameStats</a></li><li><a href="global.html#useGameStore">useGameStore</a></li><li><a href="global.html#useSessionStore">useSessionStore</a></li><li><a href="global.html#useSettingsStore">useSettingsStore</a></li><li><a href="global.html#useWinDetection">useWinDetection</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>pages/SessionsPage.jsx</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSessionStore } from '../store/sessionStore';
+import Card from '../components/common/Card';
+import Title from '../components/common/Title';
+import Button from '../components/common/Button';
+import styles from '../styles/SessionCard.module.css';
+
+/**
+ * Сторінка `/sessions` — список усіх збережених ігрових сесій з картками,
+ * що показують гравців, налаштування, статистику та дозволяють
+ * продовжити гру або видалити сесію.
+ *
+ * `handleDeleteSession` та `handleClearAll` реалізують GDPR "право на
+ * видалення" (ст. 17) для категорії даних "Історія та статистика" —
+ * див. розділ 4 `PRIVACY_POLICY.md`. Обидві дії підтверджуються через
+ * `window.confirm`, оскільки видалення незворотне.
+ */
+const SessionsPage = () => {
+    const navigate = useNavigate();
+    const getAllSessions = useSessionStore((state) => state.getAllSessions);
+    const deleteSession = useSessionStore((state) => state.deleteSession);
+    const clearAllSessions = useSessionStore((state) => state.clearAllSessions);
+
+    const sessions = getAllSessions();
+
+    const handleContinueSession = (sessionId) => {
+        navigate(`/game/${sessionId}`);
+    };
+
+    const handleDeleteSession = (sessionId, e) => {
+        e.stopPropagation();
+        if (window.confirm('Ви впевнені, що хочете видалити цю сесію?')) {
+            deleteSession(sessionId);
+        }
+    };
+
+    const handleClearAll = () => {
+        if (window.confirm('Видалити всі сесії? Цю дію не можна скасувати.')) {
+            clearAllSessions();
+        }
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleString('uk-UA', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
+    return (
+        &lt;div className="min-h-screen bg-gradient-to-br from-blue-400 to-purple-500 p-4 pt-24">
+            &lt;div className="max-w-6xl mx-auto">
+                &lt;Card>
+                    &lt;div className="flex justify-between items-center mb-6">
+                        &lt;Title size="medium">Мої ігрові сесії&lt;/Title>
+                        {sessions.length > 0 &amp;&amp; (
+                            &lt;Button variant="secondary" onClick={handleClearAll}>
+                                🗑️ Очистити всі
+                            &lt;/Button>
+                        )}
+                    &lt;/div>
+
+                    {sessions.length === 0 ? (
+                        &lt;div className="text-center py-12">
+                            &lt;div className="text-6xl mb-4">🎮&lt;/div>
+                            &lt;p className="text-gray-600 text-lg mb-6">
+                                У вас поки немає збережених сесій
+                            &lt;/p>
+                            &lt;Button variant="primary" onClick={() => navigate('/start')}>
+                                Створити нову гру
+                            &lt;/Button>
+                        &lt;/div>
+                    ) : (
+                        &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {sessions.map((session) => (
+                                &lt;div
+                                    key={session.id}
+                                    className={styles.sessionCard}
+                                    onClick={() => handleContinueSession(session.id)}
+                                >
+                                    &lt;div className={styles.sessionHeader}>
+                                        &lt;div className={styles.sessionTitle}>
+                                            {session.settings.playerOneName} vs {session.settings.playerTwoName}
+                                        &lt;/div>
+                                    &lt;/div>
+
+                                    &lt;div className={styles.sessionDate}>
+                                        📅 {formatDate(session.lastPlayedAt)}
+                                    &lt;/div>
+
+                                    &lt;div className="text-sm text-gray-600 my-2">
+                                        📏 {session.settings.gridSize} • 🎯 {session.settings.winCondition} в ряд
+                                    &lt;/div>
+
+                                    &lt;div className={styles.sessionStats}>
+                                        &lt;div className={`${styles.statBox} bg-red-50`}>
+                                            &lt;div className={`${styles.statValue} text-red-600`}>
+                                                {session.stats.player1Wins}
+                                            &lt;/div>
+                                            &lt;div className={styles.statLabel}>Перемог P1&lt;/div>
+                                        &lt;/div>
+
+                                        &lt;div className={`${styles.statBox} bg-gray-100`}>
+                                            &lt;div className={`${styles.statValue} text-gray-600`}>
+                                                {session.stats.draws}
+                                            &lt;/div>
+                                            &lt;div className={styles.statLabel}>Нічиї&lt;/div>
+                                        &lt;/div>
+
+                                        &lt;div className={`${styles.statBox} bg-yellow-50`}>
+                                            &lt;div className={`${styles.statValue} text-yellow-600`}>
+                                                {session.stats.player2Wins}
+                                            &lt;/div>
+                                            &lt;div className={styles.statLabel}>Перемог P2&lt;/div>
+                                        &lt;/div>
+                                    &lt;/div>
+
+                                    &lt;div className="text-center text-sm text-gray-500 mb-3">
+                                        Всього ігор: {session.stats.totalGames}
+                                    &lt;/div>
+
+                                    &lt;div className={styles.sessionActions}>
+                                        &lt;button
+                                            className={`${styles.actionButton} ${styles.continueButton}`}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleContinueSession(session.id);
+                                            }}
+                                        >
+                                            ▶️ Продовжити
+                                        &lt;/button>
+                                        &lt;button
+                                            className={`${styles.actionButton} ${styles.deleteButton}`}
+                                            onClick={(e) => handleDeleteSession(session.id, e)}
+                                        >
+                                            🗑️ Видалити
+                                        &lt;/button>
+                                    &lt;/div>
+                                &lt;/div>
+                            ))}
+                        &lt;/div>
+                    )}
+                &lt;/Card>
+            &lt;/div>
+        &lt;/div>
+    );
+};
+
+export default SessionsPage;</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+{
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc", "closure"]
+  },
+  "source": {
+    "include": ["../src"],
+    "includePattern": ".+\\.jsx?$",
+    "excludePattern": "(^|/)(_|.*\\.test\\.js$)"
+  },
+  "plugins": [
+    "node_modules/jsdoc-babel",
+    "plugins/markdown",
+    "node_modules/better-docs/component"
+  ],
+  "babel": {
+    "extensions": ["js", "jsx"],
+    "babelrc": false,
+    "presets": ["@babel/preset-env", "@babel/preset-react"]
+  },
+  "better-docs": {
+    "name": "Connect Four — документація коду",
+    "logo": "",
+    "title": "Connect Four docs",
+    "hideGenerator": false,
+    "navLinks": [
+      {
+        "label": "GitHub",
+        "href": "<GITHUB_REPO_URL>"
+      },
+      {
+        "label": "README",
+        "href": "../README.md"
+      }
+    ]
+  },
+  "opts": {
+    "destination": "../docs",
+    "recurse": true,
+    "readme": "../README.md",
+    "encoding": "utf8",
+    "template": "node_modules/better-docs"
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "better-docs": {
+      "component": {
+        "wrapper": "detail"
+      }
+    }
+  }
+}

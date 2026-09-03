@@ -1,0 +1,213 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/game/GameBoard.stories.jsx</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#AppRouter">AppRouter</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#CONSENT_KEY">CONSENT_KEY</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#GameBoard">GameBoard</a></li><li><a href="global.html#GameControls">GameControls</a></li><li><a href="global.html#GameOverModal">GameOverModal</a></li><li><a href="global.html#GamePage">GamePage</a></li><li><a href="global.html#HomePage">HomePage</a></li><li><a href="global.html#Navigation">Navigation</a></li><li><a href="global.html#NotFoundPage">NotFoundPage</a></li><li><a href="global.html#PlayerInfo">PlayerInfo</a></li><li><a href="global.html#Portal">Portal</a></li><li><a href="global.html#PrivacyPage">PrivacyPage</a></li><li><a href="global.html#ResultStats">ResultStats</a></li><li><a href="global.html#ResultsPage">ResultsPage</a></li><li><a href="global.html#SessionsPage">SessionsPage</a></li><li><a href="global.html#SettingsForm">SettingsForm</a></li><li><a href="global.html#SettingsModal">SettingsModal</a></li><li><a href="global.html#StartPage">StartPage</a></li><li><a href="global.html#Title">Title</a></li><li><a href="global.html#createConsentAwareStorage">createConsentAwareStorage</a></li><li><a href="global.html#createSession">createSession</a></li><li><a href="global.html#emptyBoard">emptyBoard</a></li><li><a href="global.html#getAllSessions">getAllSessions</a></li><li><a href="global.html#getBoardDimensions">getBoardDimensions</a></li><li><a href="global.html#readConsentCategories">readConsentCategories</a></li><li><a href="global.html#resetConsent">resetConsent</a></li><li><a href="global.html#sessions">sessions</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#updateSessionStats">updateSessionStats</a></li><li><a href="global.html#useConsentStore">useConsentStore</a></li><li><a href="global.html#useGameBoard">useGameBoard</a></li><li><a href="global.html#useGameLogic">useGameLogic</a></li><li><a href="global.html#useGameStats">useGameStats</a></li><li><a href="global.html#useGameStore">useGameStore</a></li><li><a href="global.html#useSessionStore">useSessionStore</a></li><li><a href="global.html#useSettingsStore">useSettingsStore</a></li><li><a href="global.html#useWinDetection">useWinDetection</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/game/GameBoard.stories.jsx</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import GameBoard from './GameBoard';
+
+/** Створює порожню дошку `rows × cols`, заповнену `null`. */
+const emptyBoard = (rows, cols) =>
+    Array.from({ length: rows }, () => Array.from({ length: cols }, () => null));
+
+/**
+ * `GameBoard` — центральний ігровий компонент застосунку: рендерить
+ * сітку "Чотири в ряд" на основі двовимірного масиву та підсвічує
+ * клітинку останнього ходу. Комплексний компонент: обчислює похідний
+ * стан (`isLastMove` для кожної клітинки), має конфігуровану колірну
+ * тему (`boardColor`) і обробляє клік по всій колонці, а не по клітинці.
+ */
+export default {
+    title: 'Game/GameBoard',
+    component: GameBoard,
+    tags: ['autodocs'],
+    parameters: {
+        layout: 'centered',
+        docs: {
+            description: {
+                component:
+                    'Розмір дошки визначається автоматично з переданого масиву `board` ' +
+                    '— окремо передавати кількість рядків/колонок не потрібно. ' +
+                    'Пропс `isColumnFull` приймається, але наразі не впливає на ' +
+                    'рендер (див. JSDoc компонента) — це видно в стори `AlmostFull`, ' +
+                    'де заповнена колонка виглядає так само клікабельною, як і решта.',
+            },
+        },
+    },
+    argTypes: {
+        boardColor: {
+            control: 'select',
+            options: ['blue', 'green', 'purple'],
+            description: 'Колір фону дошки.',
+            table: { defaultValue: { summary: 'blue' } },
+        },
+        onColumnClick: { action: 'column-clicked' },
+        board: { control: false },
+        lastMove: { control: false },
+    },
+};
+
+/**
+ * Порожня дошка стандартного розміру 6×7 (класичні правила "4 в ряд") —
+ * стан на самому початку матчу, до першого ходу.
+ */
+export const EmptyBoard = {
+    args: {
+        board: emptyBoard(6, 7),
+        lastMove: null,
+        boardColor: 'blue',
+    },
+};
+
+/**
+ * Гра в процесі: кілька ходів обох гравців зроблено, останній хід
+ * (жовта фішка гравця 2) підсвічений зеленим кільцем — саме так
+ * `GameBoard` показує `lastMove` під час реальної гри на сторінці `/game`.
+ */
+export const InProgress = {
+    args: {
+        board: [
+            [null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null],
+            [null, null, null, 2, null, null, null],
+            [null, null, 2, 1, null, null, null],
+            [null, 1, 1, 2, null, null, null],
+            [null, 1, 2, 1, 1, null, null],
+        ],
+        lastMove: { row: 2, col: 3 },
+        boardColor: 'green',
+    },
+};
+
+/**
+ * Дошка з майже заповненою першою колонкою (5 із 6 клітинок зайнято) —
+ * демонструє колірний варіант `purple` і той нюанс, що `GameBoard` сам
+ * по собі не показує візуальну різницю для колонок, які от-от заповняться
+ * (обробка "колонка повна" відбувається на рівні `useGameLogic`, не тут).
+ */
+export const AlmostFull = {
+    args: {
+        board: [
+            [null, null, null, null, null, null, null],
+            [1, null, null, null, null, null, null],
+            [2, null, null, 1, null, null, null],
+            [1, null, 1, 2, null, null, null],
+            [2, null, 2, 1, 2, null, null],
+            [1, 2, 1, 2, 1, 2, 1],
+        ],
+        lastMove: { row: 1, col: 0 },
+        boardColor: 'purple',
+    },
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

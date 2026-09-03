@@ -1,0 +1,205 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> store/consentStore.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#AppRouter">AppRouter</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#CONSENT_KEY">CONSENT_KEY</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#GameBoard">GameBoard</a></li><li><a href="global.html#GameControls">GameControls</a></li><li><a href="global.html#GameOverModal">GameOverModal</a></li><li><a href="global.html#GamePage">GamePage</a></li><li><a href="global.html#HomePage">HomePage</a></li><li><a href="global.html#Navigation">Navigation</a></li><li><a href="global.html#NotFoundPage">NotFoundPage</a></li><li><a href="global.html#PlayerInfo">PlayerInfo</a></li><li><a href="global.html#Portal">Portal</a></li><li><a href="global.html#PrivacyPage">PrivacyPage</a></li><li><a href="global.html#ResultStats">ResultStats</a></li><li><a href="global.html#ResultsPage">ResultsPage</a></li><li><a href="global.html#SessionsPage">SessionsPage</a></li><li><a href="global.html#SettingsForm">SettingsForm</a></li><li><a href="global.html#SettingsModal">SettingsModal</a></li><li><a href="global.html#StartPage">StartPage</a></li><li><a href="global.html#Title">Title</a></li><li><a href="global.html#createConsentAwareStorage">createConsentAwareStorage</a></li><li><a href="global.html#createSession">createSession</a></li><li><a href="global.html#emptyBoard">emptyBoard</a></li><li><a href="global.html#getAllSessions">getAllSessions</a></li><li><a href="global.html#getBoardDimensions">getBoardDimensions</a></li><li><a href="global.html#readConsentCategories">readConsentCategories</a></li><li><a href="global.html#resetConsent">resetConsent</a></li><li><a href="global.html#sessions">sessions</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#updateSessionStats">updateSessionStats</a></li><li><a href="global.html#useConsentStore">useConsentStore</a></li><li><a href="global.html#useGameBoard">useGameBoard</a></li><li><a href="global.html#useGameLogic">useGameLogic</a></li><li><a href="global.html#useGameStats">useGameStats</a></li><li><a href="global.html#useGameStore">useGameStore</a></li><li><a href="global.html#useSessionStore">useSessionStore</a></li><li><a href="global.html#useSettingsStore">useSettingsStore</a></li><li><a href="global.html#useWinDetection">useWinDetection</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>store/consentStore.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { create } from 'zustand';
+
+/**
+ * Ключ, під яким рішення користувача про згоду зберігається в localStorage.
+ * Це єдине значення, яке Застосунок дозволяє собі зберегти ще ДО отримання
+ * згоди — технічно необхідно, щоб не показувати банер повторно щоразу.
+ */
+export const CONSENT_KEY = 'connect-four-cookie-consent';
+
+const readStoredConsent = () => {
+    try {
+        const raw = window.localStorage.getItem(CONSENT_KEY);
+        if (!raw) return null;
+        return JSON.parse(raw);
+    } catch {
+        return null;
+    }
+};
+
+/**
+ * Стор згоди на використання локального сховища (GDPR-банер).
+ *
+ * Категорії згоди відповідають розділу 5 PRIVACY_POLICY.md:
+ * - necessary   — сам прапорець згоди; завжди true, вимкнути не можна.
+ * - preferences — налаштування гри (імена гравців, розмір дошки, колір).
+ * - history     — історія ігрових сесій та статистика.
+ *
+ * Якщо користувач ще не приймав рішення, `status` дорівнює 'pending' і
+ * банер повинен бути показаний.
+ */
+export const useConsentStore = create((set, get) => {
+    const stored = readStoredConsent();
+
+    const persist = (status, categories) => {
+        try {
+            window.localStorage.setItem(
+                CONSENT_KEY,
+                JSON.stringify({ status, categories, decidedAt: new Date().toISOString() })
+            );
+        } catch {
+            // localStorage може бути недоступний (приватний режим тощо) —
+            // у такому разі згода діє лише в межах поточного сеансу.
+        }
+    };
+
+    return {
+        status: stored?.status ?? 'pending', // 'pending' | 'accepted' | 'rejected'
+        categories: stored?.categories ?? {
+            necessary: true,
+            preferences: false,
+            history: false,
+        },
+
+        acceptAll: () => {
+            const categories = { necessary: true, preferences: true, history: true };
+            persist('accepted', categories);
+            set({ status: 'accepted', categories });
+        },
+
+        rejectAll: () => {
+            const categories = { necessary: true, preferences: false, history: false };
+            persist('rejected', categories);
+            set({ status: 'rejected', categories });
+        },
+
+        savePreferences: (categories) => {
+            const merged = { necessary: true, ...categories };
+            const status = merged.preferences || merged.history ? 'accepted' : 'rejected';
+            persist(status, merged);
+            set({ status, categories: merged });
+        },
+
+        /** Дозволяє користувачу будь-коли відкликати згоду (ст. 7(3) GDPR). */
+        resetConsent: () => {
+            try {
+                window.localStorage.removeItem(CONSENT_KEY);
+            } catch {
+                // ignore
+            }
+            set({
+                status: 'pending',
+                categories: { necessary: true, preferences: false, history: false },
+            });
+        },
+
+        isPending: () => get().status === 'pending',
+    };
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

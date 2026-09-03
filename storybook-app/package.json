@@ -1,0 +1,26 @@
+{
+  "name": "connect-four-storybook",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ізольоване середовище Storybook для компонентів Connect Four. Компоненти імпортуються напряму з ../src, але залежності Storybook встановлені окремо, щоб уникнути конфліктів версій з react-scripts у кореневому проєкті.",
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-docs": "^10.6.0",
+    "@storybook/preset-create-react-app": "^10.6.0",
+    "@storybook/react": "^10.6.0",
+    "@storybook/react-webpack5": "^10.6.0",
+    "autoprefixer": "^10.5.4",
+    "postcss": "^8.5.26",
+    "postcss-loader": "^8.2.1",
+    "react-scripts": "^5.0.1",
+    "storybook": "^10.6.0",
+    "tailwindcss": "^3.4.19"
+  }
+}

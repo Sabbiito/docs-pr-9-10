@@ -1,0 +1,248 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/modals/SettingsForm.jsx</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#AppRouter">AppRouter</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#CONSENT_KEY">CONSENT_KEY</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#GameBoard">GameBoard</a></li><li><a href="global.html#GameControls">GameControls</a></li><li><a href="global.html#GameOverModal">GameOverModal</a></li><li><a href="global.html#GamePage">GamePage</a></li><li><a href="global.html#HomePage">HomePage</a></li><li><a href="global.html#Navigation">Navigation</a></li><li><a href="global.html#NotFoundPage">NotFoundPage</a></li><li><a href="global.html#PlayerInfo">PlayerInfo</a></li><li><a href="global.html#Portal">Portal</a></li><li><a href="global.html#PrivacyPage">PrivacyPage</a></li><li><a href="global.html#ResultStats">ResultStats</a></li><li><a href="global.html#ResultsPage">ResultsPage</a></li><li><a href="global.html#SessionsPage">SessionsPage</a></li><li><a href="global.html#SettingsForm">SettingsForm</a></li><li><a href="global.html#SettingsModal">SettingsModal</a></li><li><a href="global.html#StartPage">StartPage</a></li><li><a href="global.html#Title">Title</a></li><li><a href="global.html#createConsentAwareStorage">createConsentAwareStorage</a></li><li><a href="global.html#createSession">createSession</a></li><li><a href="global.html#emptyBoard">emptyBoard</a></li><li><a href="global.html#getAllSessions">getAllSessions</a></li><li><a href="global.html#getBoardDimensions">getBoardDimensions</a></li><li><a href="global.html#readConsentCategories">readConsentCategories</a></li><li><a href="global.html#resetConsent">resetConsent</a></li><li><a href="global.html#sessions">sessions</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#updateSessionStats">updateSessionStats</a></li><li><a href="global.html#useConsentStore">useConsentStore</a></li><li><a href="global.html#useGameBoard">useGameBoard</a></li><li><a href="global.html#useGameLogic">useGameLogic</a></li><li><a href="global.html#useGameStats">useGameStats</a></li><li><a href="global.html#useGameStore">useGameStore</a></li><li><a href="global.html#useSessionStore">useSessionStore</a></li><li><a href="global.html#useSettingsStore">useSettingsStore</a></li><li><a href="global.html#useWinDetection">useWinDetection</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/modals/SettingsForm.jsx</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
+
+/**
+ * Форма редагування налаштувань гри: імена гравців, розмір дошки, умова
+ * перемоги, колір дошки. Валідація виконується локально при сабміті
+ * (`handleSubmit`), не на льоту при кожній зміні поля.
+ *
+ * Правила валідації імен гравців:
+ * - мінімум 2 символи;
+ * - максимум 20 символів;
+ * - імена гравця 1 та гравця 2 повинні відрізнятися.
+ *
+ * @param {Object} props
+ * @param {{playerOneName: string, playerTwoName: string, gridSize: string, winCondition: number, boardColor: string}} props.settings — початкові значення форми.
+ * @param {function(Object)} props.onSave — викликається з валідними даними форми при успішному сабміті.
+ * @param {function()} props.onClose — закрити форму без збереження (також викликається одразу після `onSave`).
+ */
+const SettingsForm = ({ settings, onSave, onClose }) => {
+    const [formData, setFormData] = useState(settings);
+    const [errors, setErrors] = useState({});
+
+    const validate = () => {
+        const newErrors = {};
+        if (!formData.playerOneName || formData.playerOneName.length &lt; 2) {
+            newErrors.playerOneName = "Мінімум 2 символи";
+        }
+        if (!formData.playerTwoName || formData.playerTwoName.length &lt; 2) {
+            newErrors.playerTwoName = "Мінімум 2 символи";
+        }
+        if (formData.playerOneName === formData.playerTwoName) {
+            newErrors.playerTwoName = "Імена повинні відрізнятися";
+        }
+        if (formData.playerOneName.length > 20) {
+            newErrors.playerOneName = "Максимум 20 символів";
+        }
+        if (formData.playerTwoName.length > 20) {
+            newErrors.playerTwoName = "Максимум 20 символів";
+        }
+        return newErrors;
+    };
+
+    const handleSubmit = () => {
+        const newErrors = validate();
+        if (Object.keys(newErrors).length === 0) {
+            onSave(formData);
+            onClose();
+        } else {
+            setErrors(newErrors);
+        }
+    };
+
+    return (
+        &lt;div className="space-y-4">
+            &lt;div className="grid grid-cols-2 gap-4">
+                &lt;div>
+                    &lt;label className="block text-sm font-medium mb-2">Ім'я гравця 1&lt;/label>
+                    &lt;input
+                        value={formData.playerOneName}
+                        onChange={(e) => setFormData({...formData, playerOneName: e.target.value})}
+                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    />
+                    {errors.playerOneName &amp;&amp; &lt;p className="text-sm text-red-600 mt-1">{errors.playerOneName}&lt;/p>}
+                &lt;/div>
+                &lt;div>
+                    &lt;label className="block text-sm font-medium mb-2">Ім'я гравця 2&lt;/label>
+                    &lt;input
+                        value={formData.playerTwoName}
+                        onChange={(e) => setFormData({...formData, playerTwoName: e.target.value})}
+                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    />
+                    {errors.playerTwoName &amp;&amp; &lt;p className="text-sm text-red-600 mt-1">{errors.playerTwoName}&lt;/p>}
+                &lt;/div>
+            &lt;/div>
+
+            &lt;div>
+                &lt;label className="block text-sm font-medium mb-2">Розмір дошки&lt;/label>
+                &lt;select
+                    value={formData.gridSize}
+                    onChange={(e) => setFormData({...formData, gridSize: e.target.value})}
+                    className="w-full px-4 py-2 border rounded-lg"
+                >
+                    &lt;option value="6x7">Стандартний (6x7)&lt;/option>
+                    &lt;option value="7x8">Середній (7x8)&lt;/option>
+                    &lt;option value="8x9">Великий (8x9)&lt;/option>
+                &lt;/select>
+            &lt;/div>
+
+            &lt;div>
+                &lt;label className="block text-sm font-medium mb-2">Умова перемоги&lt;/label>
+                &lt;select
+                    value={formData.winCondition}
+                    onChange={(e) => setFormData({...formData, winCondition: parseInt(e.target.value)})}
+                    className="w-full px-4 py-2 border rounded-lg"
+                >
+                    &lt;option value={4}>4 в ряд (стандарт)&lt;/option>
+                    &lt;option value={5}>5 в ряд (складно)&lt;/option>
+                    &lt;option value={6}>6 в ряд (дуже складно)&lt;/option>
+                &lt;/select>
+            &lt;/div>
+
+            &lt;div>
+                &lt;label className="block text-sm font-medium mb-2">Колір дошки&lt;/label>
+                &lt;div className="flex gap-3">
+                    {['blue', 'green', 'purple'].map((color) => (
+                        &lt;button
+                            key={color}
+                            onClick={() => setFormData({...formData, boardColor: color})}
+                            className={`w-12 h-12 rounded-full border-4 transition-all ${
+                                formData.boardColor === color ? 'border-gray-800 scale-110' : 'border-gray-300'
+                            } ${
+                                color === 'blue' ? 'bg-blue-600' :
+                                    color === 'green' ? 'bg-green-600' :
+                                        'bg-purple-600'
+                            }`}
+                        />
+                    ))}
+                &lt;/div>
+            &lt;/div>
+
+            &lt;div className="flex gap-3 pt-4">
+                &lt;button onClick={handleSubmit} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-all">
+                    Зберегти
+                &lt;/button>
+                &lt;button onClick={onClose} className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 rounded-lg transition-all">
+                    Скасувати
+                &lt;/button>
+            &lt;/div>
+        &lt;/div>
+    );
+};
+
+export default SettingsForm;</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

@@ -1,0 +1,212 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/modals/GameOverModal.jsx</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#AppRouter">AppRouter</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#CONSENT_KEY">CONSENT_KEY</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#GameBoard">GameBoard</a></li><li><a href="global.html#GameControls">GameControls</a></li><li><a href="global.html#GameOverModal">GameOverModal</a></li><li><a href="global.html#GamePage">GamePage</a></li><li><a href="global.html#HomePage">HomePage</a></li><li><a href="global.html#Navigation">Navigation</a></li><li><a href="global.html#NotFoundPage">NotFoundPage</a></li><li><a href="global.html#PlayerInfo">PlayerInfo</a></li><li><a href="global.html#Portal">Portal</a></li><li><a href="global.html#PrivacyPage">PrivacyPage</a></li><li><a href="global.html#ResultStats">ResultStats</a></li><li><a href="global.html#ResultsPage">ResultsPage</a></li><li><a href="global.html#SessionsPage">SessionsPage</a></li><li><a href="global.html#SettingsForm">SettingsForm</a></li><li><a href="global.html#SettingsModal">SettingsModal</a></li><li><a href="global.html#StartPage">StartPage</a></li><li><a href="global.html#Title">Title</a></li><li><a href="global.html#createConsentAwareStorage">createConsentAwareStorage</a></li><li><a href="global.html#createSession">createSession</a></li><li><a href="global.html#emptyBoard">emptyBoard</a></li><li><a href="global.html#getAllSessions">getAllSessions</a></li><li><a href="global.html#getBoardDimensions">getBoardDimensions</a></li><li><a href="global.html#readConsentCategories">readConsentCategories</a></li><li><a href="global.html#resetConsent">resetConsent</a></li><li><a href="global.html#sessions">sessions</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#updateSessionStats">updateSessionStats</a></li><li><a href="global.html#useConsentStore">useConsentStore</a></li><li><a href="global.html#useGameBoard">useGameBoard</a></li><li><a href="global.html#useGameLogic">useGameLogic</a></li><li><a href="global.html#useGameStats">useGameStats</a></li><li><a href="global.html#useGameStore">useGameStore</a></li><li><a href="global.html#useSessionStore">useSessionStore</a></li><li><a href="global.html#useSettingsStore">useSettingsStore</a></li><li><a href="global.html#useWinDetection">useWinDetection</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/modals/GameOverModal.jsx</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import Portal from '../common/Portal';
+
+/**
+ * Модальне вікно завершення матчу — показує переможця/нічию, сукупну
+ * статистику сесії та три дії: наступний раунд, повний рестарт, вихід.
+ *
+ * @param {Object} props
+ * @param {boolean} props.isOpen — якщо `false`, компонент нічого не рендерить.
+ * @param {(number|string)} props.winner — `1`, `2` або `'draw'`.
+ * @param {string} props.playerOneName
+ * @param {string} props.playerTwoName
+ * @param {{player1Wins: number, player2Wins: number, draws: number}} props.stats
+ * @param {function()} props.onPlayAgain — почати новий раунд у тій самій сесії (статистика зберігається).
+ * @param {function()} props.onRestart — почати сесію заново (скидає статистику).
+ * @param {function()} props.onExit — повернутись у головне меню.
+ */
+const GameOverModal = ({
+                           isOpen,
+                           winner,
+                           playerOneName,
+                           playerTwoName,
+                           stats,
+                           onPlayAgain,
+                           onRestart,
+                           onExit
+                       }) => {
+    if (!isOpen) return null;
+
+    const getWinnerData = () => {
+        if (winner === 'draw') {
+            return {
+                title: '🤝 Нічия!',
+                message: 'Обидва гравці зіграли чудово!',
+                color: 'from-gray-400 to-gray-600'
+            };
+        }
+        const winnerName = winner === 1 ? playerOneName : playerTwoName;
+        return {
+            title: `🎉 ${winnerName} переміг!`,
+            message: 'Вітаємо з перемогою!',
+            color: winner === 1 ? 'from-red-400 to-red-600' : 'from-yellow-400 to-yellow-600'
+        };
+    };
+
+    const { title, message, color } = getWinnerData();
+
+    return (
+        &lt;Portal>
+            &lt;div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                &lt;div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4">
+                    &lt;div className={`bg-gradient-to-r ${color} p-6 rounded-t-2xl`}>
+                        &lt;h2 className="text-3xl font-bold text-white text-center">{title}&lt;/h2>
+                        &lt;p className="text-white text-center mt-2">{message}&lt;/p>
+                    &lt;/div>
+
+                    &lt;div className="p-6">
+                        &lt;div className="bg-gray-50 rounded-lg p-4 mb-6">
+                            &lt;h3 className="text-lg font-semibold text-gray-800 mb-3 text-center">
+                                Загальна статистика
+                            &lt;/h3>
+                            &lt;div className="grid grid-cols-3 gap-3">
+                                &lt;div className="text-center">
+                                    &lt;div className="text-2xl font-bold text-red-600">{stats.player1Wins}&lt;/div>
+                                    &lt;div className="text-xs text-gray-600 mt-1">{playerOneName}&lt;/div>
+                                &lt;/div>
+                                &lt;div className="text-center">
+                                    &lt;div className="text-2xl font-bold text-gray-600">{stats.draws}&lt;/div>
+                                    &lt;div className="text-xs text-gray-600 mt-1">Нічиї&lt;/div>
+                                &lt;/div>
+                                &lt;div className="text-center">
+                                    &lt;div className="text-2xl font-bold text-yellow-600">{stats.player2Wins}&lt;/div>
+                                    &lt;div className="text-xs text-gray-600 mt-1">{playerTwoName}&lt;/div>
+                                &lt;/div>
+                            &lt;/div>
+                        &lt;/div>
+
+                        &lt;div className="space-y-3">
+                            &lt;button onClick={onPlayAgain} className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-all">
+                                ▶ Наступний раунд
+                            &lt;/button>
+                            &lt;button onClick={onRestart} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-all">
+                                🔄 Почати заново
+                            &lt;/button>
+                            &lt;button onClick={onExit} className="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 rounded-lg transition-all">
+                                🏠 Головне меню
+                            &lt;/button>
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+        &lt;/Portal>
+    );
+};
+
+export default GameOverModal;</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

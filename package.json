@@ -1,0 +1,67 @@
+{
+  "name": "connect-four",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Веб-гра «4 в ряд» (Connect Four) для двох гравців. Навчальний проєкт з дисципліни «Конструювання програмного забезпечення» (КОП).",
+  "license": "MIT",
+  "author": "Максим Христюк (ІПЗ-23-2)",
+  "repository": {
+    "type": "git",
+    "url": "<GITHUB_REPO_URL>"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^7.18.3",
+    "react-scripts": "5.0.1",
+    "zustand": "^5.0.9"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "docs": "cd docs-tooling && npm install --legacy-peer-deps --silent && npm run docs",
+    "docs:serve": "npx --yes serve -l 8080 docs",
+    "storybook": "cd storybook-app && npm install --legacy-peer-deps --silent && npm run storybook",
+    "storybook:build": "cd storybook-app && npm install --legacy-peer-deps --silent && npm run build-storybook",
+    "storybook:serve": "npx --yes serve -l 6006 storybook-app/storybook-static"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/react-router-dom": "^5.3.3",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\](?!react-router|react-router-dom).+\\.(js|jsx|mjs|cjs|ts|tsx)$",
+      "^.+\\.module\\.(css|sass|scss)$"
+    ],
+    "moduleNameMapper": {
+      "^react-router/dom$": "<rootDir>/node_modules/react-router/dist/development/dom-export.js",
+      "^react-router$": "<rootDir>/node_modules/react-router/dist/development/index.js"
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

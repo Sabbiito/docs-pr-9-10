@@ -1,0 +1,17 @@
+{
+  "name": "connect-four-docs-tooling",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ізольоване середовище для генерації JSDoc-документації проєкту Connect Four. Навмисно відокремлене від кореневого node_modules, щоб уникнути конфліктів версій ajv/babel з react-scripts.",
+  "scripts": {
+    "docs": "jsdoc -c jsdoc.config.json"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
+    "@babel/preset-react": "^7.29.7",
+    "better-docs": "^2.7.3",
+    "jsdoc": "^4.0.5",
+    "jsdoc-babel": "^0.5.0"
+  }
+}

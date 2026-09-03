@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Home</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#AppRouter">AppRouter</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#CONSENT_KEY">CONSENT_KEY</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#GameBoard">GameBoard</a></li><li><a href="global.html#GameControls">GameControls</a></li><li><a href="global.html#GameOverModal">GameOverModal</a></li><li><a href="global.html#GamePage">GamePage</a></li><li><a href="global.html#HomePage">HomePage</a></li><li><a href="global.html#Navigation">Navigation</a></li><li><a href="global.html#NotFoundPage">NotFoundPage</a></li><li><a href="global.html#PlayerInfo">PlayerInfo</a></li><li><a href="global.html#Portal">Portal</a></li><li><a href="global.html#PrivacyPage">PrivacyPage</a></li><li><a href="global.html#ResultStats">ResultStats</a></li><li><a href="global.html#ResultsPage">ResultsPage</a></li><li><a href="global.html#SessionsPage">SessionsPage</a></li><li><a href="global.html#SettingsForm">SettingsForm</a></li><li><a href="global.html#SettingsModal">SettingsModal</a></li><li><a href="global.html#StartPage">StartPage</a></li><li><a href="global.html#Title">Title</a></li><li><a href="global.html#createConsentAwareStorage">createConsentAwareStorage</a></li><li><a href="global.html#createSession">createSession</a></li><li><a href="global.html#emptyBoard">emptyBoard</a></li><li><a href="global.html#getAllSessions">getAllSessions</a></li><li><a href="global.html#getBoardDimensions">getBoardDimensions</a></li><li><a href="global.html#readConsentCategories">readConsentCategories</a></li><li><a href="global.html#resetConsent">resetConsent</a></li><li><a href="global.html#sessions">sessions</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#updateSessionStats">updateSessionStats</a></li><li><a href="global.html#useConsentStore">useConsentStore</a></li><li><a href="global.html#useGameBoard">useGameBoard</a></li><li><a href="global.html#useGameLogic">useGameLogic</a></li><li><a href="global.html#useGameStats">useGameStats</a></li><li><a href="global.html#useGameStore">useGameStore</a></li><li><a href="global.html#useSessionStore">useSessionStore</a></li><li><a href="global.html#useSettingsStore">useSettingsStore</a></li><li><a href="global.html#useWinDetection">useWinDetection</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p></p>
+                    <h1>Home</h1>
+                </header>
+                
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>Connect Four (4 в ряд)</h1>
+<p>Веб-гра «4 в ряд» для двох гравців на одному пристрої: React-застосунок
+з локальним збереженням прогресу, історією ігрових сесій та статистикою.</p>
+<p>Навчальний проєкт з дисципліни <strong>«Конструювання програмного забезпечення» (КОП)</strong>.</p>
+<hr>
+<h2>Зміст</h2>
+<ul>
+<li><a href="#%D1%81%D1%82%D0%B5%D0%BA-%D1%96-%D0%B2%D0%B8%D0%BC%D0%BE%D0%B3%D0%B8">Стек і вимоги</a></li>
+<li><a href="#%D0%B2%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F-%D1%82%D0%B0-%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA">Встановлення та запуск</a></li>
+<li><a href="#%D0%BA%D0%BE%D0%BD%D1%84%D1%96%D0%B3%D1%83%D1%80%D0%B0%D1%86%D1%96%D1%8F">Конфігурація</a></li>
+<li><a href="#%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%96-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B8">Базові команди</a></li>
+<li><a href="#%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0-%D0%BF%D1%80%D0%BE%D1%94%D0%BA%D1%82%D1%83">Структура проєкту</a></li>
+<li><a href="#%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B0-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D1%96%D1%8F-%D0%BA%D0%BE%D0%B4%D1%83-jsdoc">Генерована документація коду</a></li>
+<li><a href="#storybook">Storybook</a></li>
+<li><a href="#cookie-%D0%B1%D0%B0%D0%BD%D0%B5%D1%80-%D1%96-gdpr">Cookie-банер і GDPR</a></li>
+<li><a href="#%D0%BB%D1%96%D1%86%D0%B5%D0%BD%D0%B7%D1%96%D1%8F">Ліцензія</a></li>
+<li><a href="#%D0%BF%D0%BE%D0%BB%D1%96%D1%82%D0%B8%D0%BA%D0%B0-%D0%BA%D0%BE%D0%BD%D1%84%D1%96%D0%B4%D0%B5%D0%BD%D1%86%D1%96%D0%B9%D0%BD%D0%BE%D1%81%D1%82%D1%96">Політика конфіденційності</a></li>
+<li><a href="#%D1%82%D0%B5%D1%81%D1%82%D0%B8">Тести</a></li>
+<li><a href="#%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D1%81%D1%82%D0%B2%D0%BE">Авторство</a></li>
+</ul>
+<hr>
+<h2>Стек і вимоги</h2>
+<ul>
+<li><strong>React 18</strong> + <strong>React Router v7</strong> (клієнтський роутинг, <code>BrowserRouter</code>)</li>
+<li><strong>Zustand 5</strong> — глобальний стан (гра, налаштування, історія сесій, GDPR-згода), з <code>persist</code>-middleware для <code>localStorage</code></li>
+<li><strong>Tailwind CSS 3</strong> — стилізація</li>
+<li><strong>Create React App</strong> (<code>react-scripts 5</code>) — збірка та dev-сервер</li>
+<li><strong>Node.js ≥ 18</strong>, <strong>npm ≥ 9</strong> (перевірено на Node 22 / npm 10)</li>
+</ul>
+<p>Бекенду немає — застосунок повністю клієнтський (client-side only),
+усі дані зберігаються локально в браузері користувача.</p>
+<h2>Встановлення та запуск</h2>
+<pre class="prettyprint source lang-bash"><code>git clone &lt;GITHUB_REPO_URL>
+cd connect-four
+npm install
+npm start
+</code></pre>
+<p>Застосунок відкриється на <strong>http://localhost:3000</strong>.</p>
+<h2>Конфігурація</h2>
+<p>Проєкт не потребує змінних середовища (<code>.env</code>) чи зовнішніх API-ключів —
+усе працює «з коробки» після <code>npm install</code>. Основні конфігураційні файли:</p>
+<table>
+<thead>
+<tr>
+<th>Файл</th>
+<th>Призначення</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>package.json</code> → <code>scripts</code></td>
+<td>усі команди проєкту (запуск, білд, тести, документація, Storybook)</td>
+</tr>
+<tr>
+<td><code>package.json</code> → <code>jest</code></td>
+<td><code>transformIgnorePatterns</code> / <code>moduleNameMapper</code> для коректної роботи <code>react-router</code> v7 (ESM-пакет) у тестовому середовищі Jest, що постачається з <code>react-scripts</code></td>
+</tr>
+<tr>
+<td><code>tailwind.config.js</code></td>
+<td>шляхи сканування класів Tailwind (<code>src/**/*.{js,jsx}</code>)</td>
+</tr>
+<tr>
+<td><code>.gitignore</code></td>
+<td>виключає <code>node_modules</code> (у трьох незалежних місцях — див. нижче), <code>build/</code>, <code>.idea/</code></td>
+</tr>
+</tbody>
+</table>
+<h3>Три незалежні <code>node_modules</code></h3>
+<p>Репозиторій має <strong>три ізольовані середовища залежностей</strong>, кожне зі своїм
+<code>package.json</code> і <code>node_modules</code>:</p>
+<pre class="prettyprint source"><code>connect-four/              ← основний застосунок (react-scripts)
+├── docs-tooling/           ← генератор документації (jsdoc + better-docs)
+└── storybook-app/          ← Storybook
+</code></pre>
+<p>Це навмисне архітектурне рішення: <code>jsdoc</code>/<code>better-docs</code> та <code>storybook</code>
+тягнуть власні версії <code>@babel/core</code>, <code>ajv</code>, <code>react-scripts</code>, які
+конфліктують із версіями, потрібними основному застосунку, якщо
+встановлювати все в один спільний <code>node_modules</code>. Ізоляція вирішує це
+без ризику зламати <code>npm run build</code> чи <code>npm test</code> основного застосунку.
+Кожна з допоміжних команд (<code>npm run docs</code>, <code>npm run storybook</code>, …)
+самостійно встановлює свої залежності при першому запуску — окремо
+<code>cd docs-tooling &amp;&amp; npm install</code> чи <code>cd storybook-app &amp;&amp; npm install</code>
+виконувати не потрібно.</p>
+<h2>Базові команди</h2>
+<p>Усі команди запускаються з кореня репозиторію.</p>
+<table>
+<thead>
+<tr>
+<th>Команда</th>
+<th>Опис</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>npm start</code></td>
+<td>dev-сервер застосунку на <code>:3000</code>, гаряче перезавантаження</td>
+</tr>
+<tr>
+<td><code>npm run build</code></td>
+<td>production-збірка в <code>build/</code></td>
+</tr>
+<tr>
+<td><code>npm test</code></td>
+<td>запуск тестів (Jest + React Testing Library)</td>
+</tr>
+<tr>
+<td><code>npm run docs</code></td>
+<td>генерує JSDoc-документацію коду в <code>docs/</code></td>
+</tr>
+<tr>
+<td><code>npm run docs:serve</code></td>
+<td>піднімає локальний сервер для перегляду <code>docs/</code> на <code>:8080</code></td>
+</tr>
+<tr>
+<td><code>npm run storybook</code></td>
+<td>Storybook у dev-режимі на <code>:6006</code></td>
+</tr>
+<tr>
+<td><code>npm run storybook:build</code></td>
+<td>статична збірка Storybook у <code>storybook-app/storybook-static/</code></td>
+</tr>
+<tr>
+<td><code>npm run storybook:serve</code></td>
+<td>локальний сервер для вже зібраного Storybook на <code>:6006</code></td>
+</tr>
+</tbody>
+</table>
+<h2>Структура проєкту</h2>
+<pre class="prettyprint source"><code>src/
+├── components/
+│   ├── common/       # Button, Card, Title, Navigation, Portal, CookieConsentBanner
+│   ├── game/          # GameBoard, GameControls, PlayerInfo, ResultStats
+│   └── modals/        # GameOverModal, SettingsModal, SettingsForm
+├── hooks/              # useGameLogic, useGameBoard, useWinDetection, useGameStats
+├── pages/              # HomePage, StartPage, GamePage, ResultsPage, SessionsPage, PrivacyPage, NotFoundPage
+├── router/             # AppRouter — карта всіх маршрутів
+└── store/              # gameStore, settingsStore, sessionStore, consentStore (Zustand)
+
+docs/                   # згенерована документація коду (готова, не потребує npm run docs)
+docs-tooling/           # генератор документації (ізольований)
+docs-video/             # відео-огляд локальної документації
+storybook-app/          # Storybook (ізольований), включно з готовою static-збіркою
+</code></pre>
+<h2>Генерована документація коду (JSDoc)</h2>
+<p>Увесь значущий код — React-хуки, Zustand-стори, ключові компоненти,
+роутер — задокументований у форматі <strong>JSDoc</strong>. Документація генерується
+інструментом <a href="https://jsdoc.app/"><code>jsdoc</code></a> з темою
+<a href="https://github.com/SoftwareBrothers/better-docs"><code>better-docs</code></a>
+(таблиці параметрів, типів, значень за замовчуванням) і плагіном
+<code>jsdoc-babel</code> для парсингу сучасного JSX/ESM-синтаксису.</p>
+<h3>Перегляд документації локально</h3>
+<p>Готовий сайт документації вже закомічений у <code>docs/</code> — генерувати
+заново не обов'язково, достатньо його показати:</p>
+<pre class="prettyprint source lang-bash"><code>npm run docs:serve
+</code></pre>
+<p>Відкриється на <strong>http://localhost:8080</strong>. Головна сторінка (<code>index.html</code>)
+дає загальний опис проєкту; розділ <strong>Global</strong> у бічній панелі — повний
+перелік задокументованих компонентів, хуків і сторів з описами,
+таблицями параметрів і типів, посиланнями на вихідний код.</p>
+<p>Щоб перегенерувати документацію самостійно (наприклад, після зміни
+JSDoc-коментарів у коді):</p>
+<pre class="prettyprint source lang-bash"><code>npm run docs
+</code></pre>
+<h3>Відео-огляд</h3>
+<p>Оскільки проєкт не викладений на публічний сервер (немає публічного
+доступу), короткий відео-огляд того, як запустити й переглянути
+документацію та Storybook локально, знаходиться в
+<a href="./docs-video/local-docs-walkthrough.mp4"><code>docs-video/local-docs-walkthrough.mp4</code></a>.</p>
+<h2>Storybook</h2>
+<p>Два компоненти застосунку описані в Storybook:</p>
+<ul>
+<li><strong><code>Button</code></strong> (базовий) — <code>src/components/common/Button.stories.jsx</code>
+Сторі: <code>Primary</code>, <code>AllVariants</code>, <code>Disabled</code>. Властивості <code>variant</code>,
+<code>disabled</code>, <code>children</code> конфігуруються через панель Controls.</li>
+<li><strong><code>GameBoard</code></strong> (комплексний) — <code>src/components/game/GameBoard.stories.jsx</code>
+Сторі: <code>EmptyBoard</code>, <code>InProgress</code>, <code>AlmostFull</code>. Властивість
+<code>boardColor</code> конфігурується через Controls; <code>board</code>/<code>lastMove</code>
+демонструють реальні ігрові стани (порожня дошка, гра в процесі з
+підсвіченим останнім ходом, майже заповнена дошка).</li>
+</ul>
+<h3>Перегляд локально</h3>
+<p>Готова статична збірка вже закомічена в
+<code>storybook-app/storybook-static/</code> — щоб просто переглянути:</p>
+<pre class="prettyprint source lang-bash"><code>npm run storybook:serve
+</code></pre>
+<p>Або в dev-режимі (з гарячим перезавантаженням при зміні сторі):</p>
+<pre class="prettyprint source lang-bash"><code>npm run storybook
+</code></pre>
+<p>Обидва варіанти відкриваються на <strong>http://localhost:6006</strong>.</p>
+<h2>Cookie-банер і GDPR</h2>
+<p>При першому відвідуванні застосунок показує банер згоди на
+використання <code>localStorage</code> (<code>CookieConsentBanner</code>, компонент
+<code>src/components/common/CookieConsentBanner.jsx</code>). Банер пропонує три
+дії:</p>
+<ul>
+<li><strong>Прийняти все</strong> — дозволяє зберігати налаштування гри та історію сесій;</li>
+<li><strong>Відхилити все</strong> — застосунок працює лише в межах поточного сеансу, без збереження;</li>
+<li><strong>Налаштувати</strong> — вибірково дозволити категорії «Налаштування гри» та «Історія та статистика» окремо.</li>
+</ul>
+<p>Це не лише візуальний елемент: вибір користувача реально впливає на
+поведінку застосунку. Категорії, яким не дано згоди, <strong>фізично не
+записуються</strong> в <code>localStorage</code> — це забезпечує адаптер
+<code>src/store/consentAwareStorage.js</code>, підключений до <code>persist</code>-middleware
+відповідних Zustand-сторів (<code>settingsStore</code>, <code>sessionStore</code>). Логіка
+покрита тестами (<code>src/store/consentAwareStorage.test.js</code>,
+<code>src/store/consentStore.test.js</code>).</p>
+<p>Свій поточний статус згоди та можливість його відкликати користувач
+бачить на сторінці <a href="http://localhost:3000/privacy"><strong>«Конфіденційність»</strong></a>
+(<code>/privacy</code>), доступній з головного меню.</p>
+<h2>Ліцензія</h2>
+<p>Проєкт розповсюджується за ліцензією <strong>MIT</strong> — див. <a href="./LICENSE"><code>LICENSE</code></a>.</p>
+<p>Ліцензійна сумісність усіх (1240) прямих та транзитивних залежностей
+перевірена інструментом
+<a href="https://www.npmjs.com/package/license-checker"><code>license-checker</code></a>:</p>
+<ul>
+<li><a href="./LICENSE-REPORT.md"><code>LICENSE-REPORT.md</code></a> — читабельний звіт: методологія, зведення по ліцензіях, пояснення особливих випадків, висновок про відсутність конфліктів з copyleft-ліцензіями (GPL/AGPL/LGPL);</li>
+<li><a href="./license-report-full.txt"><code>license-report-full.txt</code></a> — повний «сирий» вивід інструмента (дерево всіх пакетів).</li>
+</ul>
+<h2>Політика конфіденційності</h2>
+<p>Повний текст політики конфіденційності та ліцензійної угоди
+користувача (EULA) — у <a href="./PRIVACY_POLICY.md"><code>PRIVACY_POLICY.md</code></a>.
+Документ описує:</p>
+<ul>
+<li>які дані застосунок обробляє і де саме вони зберігаються (виключно <code>localStorage</code>, без передачі на будь-який сервер — бекенду в застосунку немає);</li>
+<li>правові підстави обробки за GDPR (ст. 6);</li>
+<li>права користувача (доступ, видалення, перенесення даних — ст. 15, 17, 20 GDPR) і те, як вони реалізовані технічно в цьому конкретному застосунку;</li>
+<li>обмеження використання та відмову від відповідальності.</li>
+</ul>
+<p>Скорочена версія з поточним статусом згоди доступна прямо в
+застосунку на сторінці <code>/privacy</code>.</p>
+<h2>Тести</h2>
+<pre class="prettyprint source lang-bash"><code>npm test -- --watchAll=false
+</code></pre>
+<p>16 тестів (Jest + React Testing Library), зокрема:</p>
+<ul>
+<li><code>src/App.test.js</code> — базовий рендер застосунку, навігація, поява GDPR-банера;</li>
+<li><code>src/store/consentStore.test.js</code> — стани згоди (прийняти/відхилити/вибіркові налаштування/відкликання);</li>
+<li><code>src/store/consentAwareStorage.test.js</code> — підтвердження, що відхилена категорія згоди реально блокує запис у <code>localStorage</code>, а не лише приховує UI.</li>
+</ul>
+<h2>Авторство</h2>
+<p><strong>Максим Христюк</strong>, ІПЗ-23-2</p>
+<p>Репозиторій: <code>&lt;GITHUB_REPO_URL&gt;</code></p></article>
+    </section>
+
+
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

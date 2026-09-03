@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> store/sessionStore.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#AppRouter">AppRouter</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#CONSENT_KEY">CONSENT_KEY</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#GameBoard">GameBoard</a></li><li><a href="global.html#GameControls">GameControls</a></li><li><a href="global.html#GameOverModal">GameOverModal</a></li><li><a href="global.html#GamePage">GamePage</a></li><li><a href="global.html#HomePage">HomePage</a></li><li><a href="global.html#Navigation">Navigation</a></li><li><a href="global.html#NotFoundPage">NotFoundPage</a></li><li><a href="global.html#PlayerInfo">PlayerInfo</a></li><li><a href="global.html#Portal">Portal</a></li><li><a href="global.html#PrivacyPage">PrivacyPage</a></li><li><a href="global.html#ResultStats">ResultStats</a></li><li><a href="global.html#ResultsPage">ResultsPage</a></li><li><a href="global.html#SessionsPage">SessionsPage</a></li><li><a href="global.html#SettingsForm">SettingsForm</a></li><li><a href="global.html#SettingsModal">SettingsModal</a></li><li><a href="global.html#StartPage">StartPage</a></li><li><a href="global.html#Title">Title</a></li><li><a href="global.html#createConsentAwareStorage">createConsentAwareStorage</a></li><li><a href="global.html#createSession">createSession</a></li><li><a href="global.html#emptyBoard">emptyBoard</a></li><li><a href="global.html#getAllSessions">getAllSessions</a></li><li><a href="global.html#getBoardDimensions">getBoardDimensions</a></li><li><a href="global.html#readConsentCategories">readConsentCategories</a></li><li><a href="global.html#resetConsent">resetConsent</a></li><li><a href="global.html#sessions">sessions</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#updateSessionStats">updateSessionStats</a></li><li><a href="global.html#useConsentStore">useConsentStore</a></li><li><a href="global.html#useGameBoard">useGameBoard</a></li><li><a href="global.html#useGameLogic">useGameLogic</a></li><li><a href="global.html#useGameStats">useGameStats</a></li><li><a href="global.html#useGameStore">useGameStore</a></li><li><a href="global.html#useSessionStore">useSessionStore</a></li><li><a href="global.html#useSettingsStore">useSettingsStore</a></li><li><a href="global.html#useWinDetection">useWinDetection</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>store/sessionStore.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { createConsentAwareStorage } from './consentAwareStorage';
+
+const SESSIONS_KEY = 'connect-four-sessions';
+
+/**
+ * @typedef {Object} GameSession
+ * @property {string} id — унікальний ідентифікатор виду `session_&lt;timestamp>`.
+ * @property {Object} settings — знімок налаштувань гри на момент створення сесії.
+ * @property {{ player1Wins: number, player2Wins: number, draws: number, totalGames: number }} stats
+ * @property {string} createdAt — ISO 8601 дата створення сесії.
+ * @property {string} lastPlayedAt — ISO 8601 дата останньої зіграної гри в сесії.
+ */
+
+/**
+ * Стор історії ігрових сесій, персистентний через `localStorage` за
+ * ключем `connect-four-sessions`. Одна "сесія" — це серія матчів з
+ * однаковими налаштуваннями (розмір дошки, умова перемоги), що
+ * накопичує сукупну статистику перемог/нічиїх.
+ *
+ * Запис і читання проходять через `createConsentAwareStorage('history')`
+ * (див. `consentAwareStorage.js`) — без згоди користувача на категорію
+ * "Історія та статистика" жодна сесія фізично не зберігається в
+ * `localStorage`. Див. розділ 2.1 `PRIVACY_POLICY.md` та право на
+ * видалення (ст. 17 GDPR), яке тут реалізується через `deleteSession`
+ * і `clearAllSessions`.
+ */
+export const useSessionStore = create(
+    persist(
+        (set, get) => ({
+            /**
+             * Мапа id сесії → сама сесія.
+             * @type {Object.&lt;string, GameSession>}
+             */
+            sessions: {},
+
+            /** Створює нову сесію з переданими налаштуваннями та нульовою статистикою. Повертає її id. */
+            createSession: (settings) => {
+                const sessionId = `session_${Date.now()}`;
+                const newSession = {
+                    id: sessionId,
+                    settings,
+                    stats: {
+                        player1Wins: 0,
+                        player2Wins: 0,
+                        draws: 0,
+                        totalGames: 0
+                    },
+                    createdAt: new Date().toISOString(),
+                    lastPlayedAt: new Date().toISOString()
+                };
+
+                set((state) => ({
+                    sessions: {
+                        ...state.sessions,
+                        [sessionId]: newSession
+                    }
+                }));
+
+                return sessionId;
+            },
+
+            getSession: (sessionId) => {
+                return get().sessions[sessionId] || null;
+            },
+
+            /** Додає результат одного матчу (`winner`: 1, 2 або `'draw'`) до статистики сесії й оновлює `lastPlayedAt`. */
+            updateSessionStats: (sessionId, winner) => {
+                set((state) => {
+                    const session = state.sessions[sessionId];
+                    if (!session) return state;
+
+                    return {
+                        sessions: {
+                            ...state.sessions,
+                            [sessionId]: {
+                                ...session,
+                                stats: {
+                                    player1Wins: winner === 1 ? session.stats.player1Wins + 1 : session.stats.player1Wins,
+                                    player2Wins: winner === 2 ? session.stats.player2Wins + 1 : session.stats.player2Wins,
+                                    draws: winner === 'draw' ? session.stats.draws + 1 : session.stats.draws,
+                                    totalGames: session.stats.totalGames + 1
+                                },
+                                lastPlayedAt: new Date().toISOString()
+                            }
+                        }
+                    };
+                });
+            },
+
+            deleteSession: (sessionId) => {
+                set((state) => {
+                    const newSessions = { ...state.sessions };
+                    delete newSessions[sessionId];
+                    return { sessions: newSessions };
+                });
+            },
+
+            /** Повертає всі сесії, відсортовані від найновішої до найстарішої за `lastPlayedAt`. */
+            getAllSessions: () => {
+                return Object.values(get().sessions).sort((a, b) =>
+                    new Date(b.lastPlayedAt) - new Date(a.lastPlayedAt)
+                );
+            },
+
+            clearAllSessions: () => {
+                set({ sessions: {} });
+            }
+        }),
+        {
+            name: SESSIONS_KEY,
+            storage: createJSONStorage(() => createConsentAwareStorage('history'))
+        }
+    )
+);</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
