@@ -4,6 +4,7 @@
 /node_modules
 /docs-tooling/node_modules
 /storybook-app/node_modules
+/server/node_modules
 /.pnp
 .pnp.js
 
