@@ -115,6 +115,8 @@
 <li><a href="#%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B0-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D1%96%D1%8F-%D0%BA%D0%BE%D0%B4%D1%83-jsdoc">Генерована документація коду</a></li>
 <li><a href="#storybook">Storybook</a></li>
 <li><a href="#cookie-%D0%B1%D0%B0%D0%BD%D0%B5%D1%80-%D1%96-gdpr">Cookie-банер і GDPR</a></li>
+<li><a href="#%D1%81%D0%B5%D1%80%D0%B2%D0%B5%D1%80%D0%BD%D0%B8%D0%B9-api-%D0%BE%D0%BF%D1%86%D1%96%D0%B9%D0%BD%D0%B8%D0%B9">Серверний API (опційний)</a></li>
+<li><a href="#%D0%BF%D1%80%D0%BE%D1%94%D0%BA%D1%82%D0%BD%D0%B0-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D1%96%D1%8F-ssd-brd">Проєктна документація (SSD, BRD)</a></li>
 <li><a href="#%D0%BB%D1%96%D1%86%D0%B5%D0%BD%D0%B7%D1%96%D1%8F">Ліцензія</a></li>
 <li><a href="#%D0%BF%D0%BE%D0%BB%D1%96%D1%82%D0%B8%D0%BA%D0%B0-%D0%BA%D0%BE%D0%BD%D1%84%D1%96%D0%B4%D0%B5%D0%BD%D1%86%D1%96%D0%B9%D0%BD%D0%BE%D1%81%D1%82%D1%96">Політика конфіденційності</a></li>
 <li><a href="#%D1%82%D0%B5%D1%81%D1%82%D0%B8">Тести</a></li>
@@ -132,8 +134,8 @@
 <p>Бекенду немає — застосунок повністю клієнтський (client-side only),
 усі дані зберігаються локально в браузері користувача.</p>
 <h2>Встановлення та запуск</h2>
-<pre class="prettyprint source lang-bash"><code>git clone &lt;GITHUB_REPO_URL>
-cd connect-four
+<pre class="prettyprint source lang-bash"><code>git clone https://github.com/Sabbiito/docs-pr-9-10.git
+cd docs-pr-9-10
 npm install
 npm start
 </code></pre>
@@ -241,7 +243,9 @@ npm start
 docs/                   # згенерована документація коду (готова, не потребує npm run docs)
 docs-tooling/           # генератор документації (ізольований)
 docs-video/             # відео-огляд локальної документації
+docs-project/           # SSD, BRD — документація проєктного рівня
 storybook-app/          # Storybook (ізольований), включно з готовою static-збіркою
+server/                 # опційний REST API (Express) + OpenAPI-специфікація + Postman-колекція
 </code></pre>
 <h2>Генерована документація коду (JSDoc)</h2>
 <p>Увесь значущий код — React-хуки, Zustand-стори, ключові компоненти,
@@ -309,6 +313,65 @@ JSDoc-коментарів у коді):</p>
 <p>Свій поточний статус згоди та можливість його відкликати користувач
 бачить на сторінці <a href="http://localhost:3000/privacy"><strong>«Конфіденційність»</strong></a>
 (<code>/privacy</code>), доступній з головного меню.</p>
+<h2>Серверний API (опційний)</h2>
+<p>Основний застосунок повністю функціональний без сервера — усі дані за
+замовчуванням локальні (<code>localStorage</code>). Додатково в <code>server/</code>
+реалізовано мінімальний REST API для <strong>опційної</strong> синхронізації
+статистики завершеної сесії та перегляду загального лідерборду. Синхронізація
+завжди ініціюється явним вибором користувача, ніколи автоматично.</p>
+<h3>Запуск сервера</h3>
+<pre class="prettyprint source lang-bash"><code>cd server
+npm install
+npm start
+</code></pre>
+<p>Сервер підніметься на <strong>http://localhost:4000</strong>. Інтерактивна
+документація (Swagger UI) — на <strong>http://localhost:4000/api-docs</strong>.</p>
+<h3>Ендпоінти</h3>
+<table>
+<thead>
+<tr>
+<th>Метод</th>
+<th>Шлях</th>
+<th>Призначення</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/v1/leaderboard/sync</code></td>
+<td>Синхронізувати статистику сесії (upsert за <code>sessionId</code>)</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/v1/leaderboard</code></td>
+<td>Отримати весь лідерборд, відсортований за перемогами</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/v1/health</code></td>
+<td>Перевірка стану сервера</td>
+</tr>
+</tbody>
+</table>
+<p>Повний контракт — у <a href="./server/openapi.yaml"><code>server/openapi.yaml</code></a>
+(OpenAPI 3.0.3). Готова колекція запитів для Postman — у
+<a href="./server/postman/Connect-Four-Leaderboard-API.postman_collection.json"><code>server/postman/Connect-Four-Leaderboard-API.postman_collection.json</code></a>;
+імпортується напряму в Postman і містить автоматизовані перевірки
+відповіді для кожного запиту.</p>
+<h3>Тести сервера</h3>
+<pre class="prettyprint source lang-bash"><code>cd server
+npm test
+</code></pre>
+<p>7 тестів (вбудований test runner Node.js + supertest), що покривають
+обидва ендпоінти: валідні й невалідні дані, ідемпотентність
+синхронізації (upsert), сортування лідерборду.</p>
+<h2>Проєктна документація (SSD, BRD)</h2>
+<p>У папці <a href="./docs-project"><code>docs-project/</code></a> — два документи проєктного
+рівня, що доповнюють технічну документацію коду (розділ вище):</p>
+<ul>
+<li><a href="./docs-project/System-Specification-Document.md"><strong>System Specification Document</strong></a> — архітектура системи, функціональні й нефункціональні вимоги, модель даних, специфікація зовнішніх інтерфейсів, трасування вимог до реалізації.</li>
+<li><a href="./docs-project/Business-Requirements-Document.md"><strong>Business Requirements Document</strong></a> — бізнес-контекст, цілі, зацікавлені сторони, бізнес-вимоги та бізнес-правила, критерії успіху, межі проєкту.</li>
+</ul>
 <h2>Ліцензія</h2>
 <p>Проєкт розповсюджується за ліцензією <strong>MIT</strong> — див. <a href="./LICENSE"><code>LICENSE</code></a>.</p>
 <p>Ліцензійна сумісність усіх (1240) прямих та транзитивних залежностей
@@ -341,7 +404,7 @@ JSDoc-коментарів у коді):</p>
 </ul>
 <h2>Авторство</h2>
 <p><strong>Максим Христюк</strong>, ІПЗ-23-2</p>
-<p>Репозиторій: <code>&lt;GITHUB_REPO_URL&gt;</code></p></article>
+<p>Репозиторій: <code>https://github.com/Sabbiito/docs-pr-9-10.git</code></p></article>
     </section>
 
 

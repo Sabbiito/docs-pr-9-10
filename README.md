@@ -40,8 +40,8 @@
 ## Встановлення та запуск
 
 ```bash
-git clone <GITHUB_REPO_URL>
-cd connect-four
+git clone https://github.com/Sabbiito/docs-pr-9-10.git
+cd docs-pr-9-10
 npm install
 npm start
 ```
@@ -300,5 +300,5 @@ npm test -- --watchAll=false
 
 **Максим Христюк**, ІПЗ-23-2
 
-Репозиторій: `<GITHUB_REPO_URL>`
+Репозиторій: `https://github.com/Sabbiito/docs-pr-9-10.git`
 
