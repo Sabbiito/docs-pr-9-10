@@ -1,0 +1,216 @@
+openapi: 3.0.3
+info:
+  title: Connect Four — Leaderboard API
+  description: >
+    Мінімальний REST API для опційної синхронізації статистики локальних
+    ігрових сесій Connect Four на сервер та отримання загального
+    лідерборду. Застосунок є client-first: за замовчуванням усі дані
+    зберігаються лише локально в браузері (localStorage), а синхронізація
+    з цим API — явна, необов'язкова дія користувача, яка ніколи не
+    відбувається автоматично. Детальніше — у PRIVACY_POLICY.md кореня
+    репозиторію.
+  version: 1.0.0
+  contact:
+    name: Максим Христюк, ІПЗ-23-2
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:4000/api/v1
+    description: Локальний сервер розробки
+
+tags:
+  - name: Leaderboard
+    description: Синхронізація статистики та перегляд загального рейтингу
+  - name: Health
+    description: Перевірка стану сервера
+
+paths:
+  /leaderboard/sync:
+    post:
+      tags: [Leaderboard]
+      summary: Синхронізувати статистику однієї локальної ігрової сесії
+      description: >
+        Приймає підсумкову статистику сесії (структура ідентична
+        `GameSession` з клієнтського `src/store/sessionStore.js`) і
+        зберігає або оновлює відповідний запис лідерборду. Ідемпотентний
+        за `sessionId`: повторний виклик з тим самим `sessionId`
+        перезаписує наявний запис (upsert), а не створює дублікат.
+      operationId: syncSession
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SyncRequest'
+            examples:
+              typical:
+                summary: Типовий приклад синхронізації
+                value:
+                  sessionId: session_1755000000000
+                  playerOneName: Олег
+                  playerTwoName: Ірина
+                  stats:
+                    player1Wins: 3
+                    player2Wins: 1
+                    draws: 1
+                    totalGames: 5
+      responses:
+        '200':
+          description: Сесію успішно синхронізовано (створено або оновлено)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyncResponse'
+        '400':
+          description: Тіло запиту не пройшло валідацію
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+              examples:
+                invalidTotals:
+                  summary: totalGames не збігається з сумою решти полів
+                  value:
+                    error: ValidationError
+                    details:
+                      - "stats.totalGames має дорівнювати сумі player1Wins + player2Wins + draws"
+        '429':
+          description: Перевищено ліміт запитів (100 запитів / 15 хвилин з одного IP)
+
+  /leaderboard:
+    get:
+      tags: [Leaderboard]
+      summary: Отримати загальний лідерборд
+      description: >
+        Повертає всі синхронізовані записи лідерборду, відсортовані за
+        сумарною кількістю перемог обох гравців (спадання). Публічний
+        ендпоінт без авторизації.
+      operationId: getLeaderboard
+      responses:
+        '200':
+          description: Список записів лідерборду (може бути порожнім)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaderboardResponse'
+              examples:
+                withEntries:
+                  summary: Лідерборд з двома записами
+                  value:
+                    entries:
+                      - sessionId: session_high
+                        playerOneName: Олег
+                        playerTwoName: Ірина
+                        stats: { player1Wins: 8, player2Wins: 2, draws: 0, totalGames: 10 }
+                        syncedAt: "2026-09-03T19:00:00.000Z"
+                      - sessionId: session_low
+                        playerOneName: Марія
+                        playerTwoName: Андрій
+                        stats: { player1Wins: 1, player2Wins: 0, draws: 0, totalGames: 1 }
+                        syncedAt: "2026-09-03T18:00:00.000Z"
+
+  /health:
+    get:
+      tags: [Health]
+      summary: Перевірка стану сервера
+      operationId: getHealth
+      responses:
+        '200':
+          description: Сервер працює
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+components:
+  schemas:
+    GameStats:
+      type: object
+      required: [player1Wins, player2Wins, draws, totalGames]
+      properties:
+        player1Wins:
+          type: integer
+          minimum: 0
+          example: 3
+        player2Wins:
+          type: integer
+          minimum: 0
+          example: 1
+        draws:
+          type: integer
+          minimum: 0
+          example: 1
+        totalGames:
+          type: integer
+          minimum: 0
+          description: Має дорівнювати player1Wins + player2Wins + draws
+          example: 5
+
+    SyncRequest:
+      type: object
+      required: [sessionId, playerOneName, playerTwoName, stats]
+      properties:
+        sessionId:
+          type: string
+          description: Ідентифікатор сесії з клієнтського sessionStore.js
+          example: session_1755000000000
+        playerOneName:
+          type: string
+          minLength: 1
+          example: Олег
+        playerTwoName:
+          type: string
+          minLength: 1
+          example: Ірина
+        stats:
+          $ref: '#/components/schemas/GameStats'
+
+    LeaderboardEntry:
+      type: object
+      properties:
+        sessionId:
+          type: string
+        playerOneName:
+          type: string
+        playerTwoName:
+          type: string
+        stats:
+          $ref: '#/components/schemas/GameStats'
+        syncedAt:
+          type: string
+          format: date-time
+          description: ISO 8601, момент синхронізації із сервером
+
+    SyncResponse:
+      type: object
+      properties:
+        synced:
+          type: boolean
+          example: true
+        entry:
+          $ref: '#/components/schemas/LeaderboardEntry'
+
+    LeaderboardResponse:
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaderboardEntry'
+
+    ValidationError:
+      type: object
+      properties:
+        error:
+          type: string
+          example: ValidationError
+        details:
+          type: array
+          items:
+            type: string
