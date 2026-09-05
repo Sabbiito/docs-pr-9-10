@@ -244,5 +244,5 @@ npm test -- --watchAll=false
 
 **Максим Христюк**, ІПЗ-23-2
 
-Репозиторій: `<GITHUB_REPO_URL>`
+Репозиторій: `https://github.com/Sabbiito/docs-pr-9-10.git`
 
