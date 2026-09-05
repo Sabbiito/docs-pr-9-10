@@ -7,7 +7,7 @@
   "author": "Максим Христюк (ІПЗ-23-2)",
   "repository": {
     "type": "git",
-    "url": "<GITHUB_REPO_URL>"
+    "url": "https://github.com/Sabbiito/docs-pr-9-10.git"
   },
   "dependencies": {
     "react": "^18.2.0",
